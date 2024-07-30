@@ -1,0 +1,13 @@
+package indigo.hacktohire.email_smtp_client;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class EmailSmtpClientApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

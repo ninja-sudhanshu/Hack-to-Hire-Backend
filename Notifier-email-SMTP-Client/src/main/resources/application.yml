@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: email-smtp-client
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: email_consumer_group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    properties:
+      spring.json.trusted.packages: "indigo.hacktohire.commons.DTOs"
+
+  mail:
+    host: email-smtp.us-east-2.amazonaws.com
+    port: 587
+    username: AKIASCPHIDX3BGIUSIOI
+    password: BMyGz8ZIVNGsSoJcgGrx6yh8EKcV1ZoYHfUrbYkoktsB
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 587
+          auth: true
+          starttls:
+            enable: true
+            required: true

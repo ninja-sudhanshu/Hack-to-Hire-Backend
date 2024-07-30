@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: notifier-app
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/airport-db
+    username: postgres
+    password: root
+
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+server:
+  port: 9000
+
+secret:
+  jwt:
+    secret-key: zlWpqE8om2EvM98GXpll2u2IFt9R3Hlc

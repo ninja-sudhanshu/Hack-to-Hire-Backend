@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: display-publisher
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: flight_status_consumer_group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    properties:
+      spring.json.trusted.packages: "indigo.hacktohire.commons.DTOs"
+
+server:
+  port: 9001

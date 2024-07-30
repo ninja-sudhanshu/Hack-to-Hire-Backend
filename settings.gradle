@@ -1,0 +1,12 @@
+rootProject.name = 'Backend'
+
+include('Notifier-App')
+include('Notifier-Commons')
+include('Notifier-Display-Publisher')
+include('Notifier-email-SMTP-Client')
+include('Notifier-Whatsapp-Cloud-Client')
+project(':Notifier-App').projectDir = file('Notifier-App')
+project(':Notifier-Commons').projectDir = file('Notifier-Commons')
+project(':Notifier-Display-Publisher').projectDir = file('Notifier-Display-Publisher')
+project(':Notifier-email-SMTP-Client').projectDir = file('Notifier-email-SMTP-Client')
+project(':Notifier-Whatsapp-Cloud-Client').projectDir = file('Notifier-Whatsapp-Cloud-Client')

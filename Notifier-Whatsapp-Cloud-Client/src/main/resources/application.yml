@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: whatsapp-cloud-client
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: whatsapp_consumer_group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    properties:
+      spring.json.trusted.packages: "indigo.hacktohire.commons.DTOs"
+
+whatsapp:
+  access-token: <WHATSAPP-CLOUD-API-ACCESS-TOKEN>
