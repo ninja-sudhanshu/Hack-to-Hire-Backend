@@ -4,6 +4,7 @@ import indigo.hacktohire.app.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,6 +33,7 @@ public class SpringSecurityConfiguration {
             authorizeHttpRequests.requestMatchers("/airlines/login").permitAll();
             authorizeHttpRequests.requestMatchers("/flights/all").permitAll();
             authorizeHttpRequests.requestMatchers("/booking").permitAll();
+            authorizeHttpRequests.requestMatchers(HttpMethod.PATCH).permitAll();
             authorizeHttpRequests.anyRequest().authenticated();
         });
         httpSecurity.sessionManagement((sessionManagement) -> {

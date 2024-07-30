@@ -57,7 +57,7 @@ public class FlightController {
     }
 
     @PatchMapping(path = "/{flightId}/cancel")
-    public ResponseEntity<APIResponse<FlightResponse>> cancelFlight(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable int flightId, @RequestBody CancelFlightRequest request) throws EntityNotFoundException {
+    public ResponseEntity<APIResponse<FlightResponse>> cancelFlight(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable int flightId) throws EntityNotFoundException {
         APIResponse<FlightResponse> apiResponse = new APIResponse<>();
         apiResponse.setStatus(APIResponseStatus.SUCCESS);
         apiResponse.setData(flightService.updateFlightStatusAsCancelled(flightId, userPrincipal.getAirline()));
