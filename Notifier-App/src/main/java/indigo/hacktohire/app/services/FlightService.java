@@ -142,7 +142,7 @@ public class FlightService {
 
     @Transactional
     public FlightResponse updateFlightGate(int flightId, Airline airline, UpdateFlightGateRequest request) throws EntityNotFoundException {
-        int isQuerySuccess = flightRepositories.updateFlightGate(request.getDepartureGate(), flightId, airline.getId());
+        int isQuerySuccess = flightRepositories.updateFlightGate(request.getDepartureGate(), FlightStatus.GATE_CHANGED, flightId, airline.getId());
         Optional<Flight> optionalFlight = flightRepositories.findById(flightId);
         if(isQuerySuccess == 1  && optionalFlight.isPresent()){
             AirlineResponse airlineResponse = new AirlineResponse();
@@ -154,7 +154,7 @@ public class FlightService {
             flightResponse.setAirline(airlineResponse);
             notifyFlightStatusUpdate(
                     optionalFlight.get().getId(),
-                    FlightStatus.RESCHEDULED,
+                    FlightStatus.GATE_CHANGED,
                     Time.from(optionalFlight.get().getDepartureDateTime().atZone(ZoneId.systemDefault()).toInstant()).toString(),
                     "We are sorry."
             );

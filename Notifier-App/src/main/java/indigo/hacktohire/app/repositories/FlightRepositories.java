@@ -24,6 +24,6 @@ public interface FlightRepositories extends JpaRepository<Flight, Integer> {
     int updateFlightDelayStatus(FlightStatus flightStatus, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime, int flightId, int airlineId);
 
     @Modifying
-    @Query(value = "UPDATE flights SET departure_gate = ?1 WHERE id = ?2 AND airline_id = ?3", nativeQuery = true)
-    int updateFlightGate(String departureGate, int flightId, int airlineId);
+    @Query(value = "UPDATE flights SET departure_gate = ?1, flight_status = ?2 WHERE id = ?3 AND airline_id = ?4", nativeQuery = true)
+    int updateFlightGate(String departureGate, FlightStatus flightStatus, int flightId, int airlineId);
 }
