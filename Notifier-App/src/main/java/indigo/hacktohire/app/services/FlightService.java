@@ -1,10 +1,7 @@
 package indigo.hacktohire.app.services;
 
 import indigo.hacktohire.app.dtos.airlines.AirlineResponse;
-import indigo.hacktohire.app.dtos.flights.CreateFlightRequest;
-import indigo.hacktohire.app.dtos.flights.DelayFlightRequest;
-import indigo.hacktohire.app.dtos.flights.FlightResponse;
-import indigo.hacktohire.app.dtos.flights.UpdateFlightGateRequest;
+import indigo.hacktohire.app.dtos.flights.*;
 import indigo.hacktohire.app.entities.Airline;
 import indigo.hacktohire.app.entities.Booking;
 import indigo.hacktohire.app.entities.Flight;
@@ -110,7 +107,7 @@ public class FlightService {
                     optionalFlight.get().getId(),
                     indigo.hacktohire.commons.DTOs.FlightStatus.RESCHEDULED,
                     Time.from(optionalFlight.get().getDepartureDateTime().atZone(ZoneId.systemDefault()).toInstant()).toString(),
-                    "We are sorry."
+                    request.getMessage()
                     );
             return flightResponse;
         }
@@ -118,7 +115,7 @@ public class FlightService {
     }
 
     @Transactional
-    public FlightResponse updateFlightStatusAsCancelled(int flightId, Airline airline) throws EntityNotFoundException {
+    public FlightResponse updateFlightStatusAsCancelled(int flightId, Airline airline, CancelFlightRequest request) throws EntityNotFoundException {
         int isQuerySuccess = flightRepositories.updateFlightStatusByIdAndAirline(FlightStatus.CANCELLED, flightId, airline.getId());
         Optional<Flight> optionalFlight = flightRepositories.findById(flightId);
         if(isQuerySuccess == 1  && optionalFlight.isPresent()){
@@ -133,7 +130,7 @@ public class FlightService {
                     optionalFlight.get().getId(),
                     indigo.hacktohire.commons.DTOs.FlightStatus.CANCELLED,
                     Time.from(optionalFlight.get().getDepartureDateTime().atZone(ZoneId.systemDefault()).toInstant()).toString(),
-                    "We are sorry."
+                    request.getMessage()
             );
             return flightResponse;
         }
@@ -156,7 +153,7 @@ public class FlightService {
                     optionalFlight.get().getId(),
                     FlightStatus.GATE_CHANGED,
                     Time.from(optionalFlight.get().getDepartureDateTime().atZone(ZoneId.systemDefault()).toInstant()).toString(),
-                    "We are sorry."
+                    request.getMessage()
             );
             return flightResponse;
         }
@@ -167,10 +164,12 @@ public class FlightService {
     private void notifyFlightStatusUpdate(int flightId, FlightStatus flightStatus, String flightStatusUpdatedTo, String customMessage){
         List<Booking> bookingList = bookingService.getAllPassengersByFlight(flightId);
         List<Flight> flightList = flightRepositories.findAllByDepartureDateTimeBetween(LocalDateTime.now(), LocalDateTime.now().plus(24, ChronoUnit.HOURS));
-
         kafkaEmailProducer.produce(utility.convertBookingListToPassengersEmailObjectList(bookingList, flightStatus, flightStatusUpdatedTo, customMessage));
         kafkaWhatsappProducer.produce(utility.convertBookingListToPassengersWhatsappObjectList(bookingList, flightStatus, flightStatusUpdatedTo, customMessage));
         kafkaFlightDepartureStatusProducer.produce(utility.convertFlightListToFlightStatusObjectList(flightList));
+
+        System.out.println("CUSTOM Message: "+customMessage);
+
     }
 
 }

@@ -22,4 +22,6 @@ public class DelayFlightRequest {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     LocalDateTime arrivalDateTime;
+
+    String message;
 }
